@@ -2,6 +2,9 @@ import requests
 import bs4
 import time
 
+from urllib.parse import urlencode
+from selenium import webdriver
+
 
 def get_redirect_url(url):
     response = requests.get(url)
@@ -22,14 +25,14 @@ def get_title_and_url(url):
 def get_top_google_search_link(title, site):
     query = title + ' site:' + site
     google_url = 'https://www.google.co.jp/search'
-    # to avoid bot detection
-    time.sleep(3.0)
-    response = requests.get(google_url, params={'q': query})
-    soup = bs4.BeautifulSoup(response.text, 'html.parser')
-    href = soup.select('.r > a')[0].get('href')
-    if href.find('search?q=') > -1:
-        href = soup.select('.r > a')[1].get('href')
-    return href.replace('/url?q=', '')
+    # use headless browser to avoid bot detection
+    driver = webdriver.PhantomJS()
+    driver.get(google_url + '?' + urlencode({'q': query}))
+    links = driver.find_elements_by_css_selector('h3 > a')
+    url = links[0].get_attribute('href')
+    if url.find('/search?q=') > -1:
+        url = links[1].get_attribute('href')
+    return url.replace('https://www.google.co.jp', '').replace('/url?q=', '')
 
 def clean_url(url):
     end_index = url.find('&')
