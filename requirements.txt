@@ -2,3 +2,5 @@ Flask==0.12.2
 bs4==0.0.1
 requests==2.21.0
 gunicorn==19.9.0
+selenium==3.141.0
+Pillow==5.4.1

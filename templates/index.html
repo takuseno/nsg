@@ -6,5 +6,8 @@
       <button type='submit'>search</button>
     </form>
     <p>{{ result }}</p>
+    {% if image %}
+      <img src="data:image/png;base64,{{ image }}" />
+    {% endif %}
   </body>
 </html
