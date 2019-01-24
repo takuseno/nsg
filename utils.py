@@ -26,7 +26,10 @@ def get_top_google_search_link(title, site):
     time.sleep(1.0)
     response = requests.get(google_url, params={'q': query})
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
-    return soup.select('.r > a')[0].get('href').replace('/url?q=', '')
+    href = soup.select('.r > a')[0].get('href')
+    if href.find('search?q=') > -1:
+        href = soup.select('.r > a')[1].get('href')
+    return href.replace('/url?q=', '')
 
 def clean_url(url):
     end_index = url.find('&')
