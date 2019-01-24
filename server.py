@@ -1,3 +1,5 @@
+import os
+
 from utils import get_original_link
 from flask import Flask, render_template, request, redirect
 
@@ -20,4 +22,8 @@ def search():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=80)
+    if 'PORT' in os.environ:
+        port = os.environ['PORT']
+    else:
+        port = 5000
+    app.run(host='0.0.0.0', port=port)
