@@ -1,5 +1,6 @@
 import requests
 import bs4
+import time
 
 
 def get_redirect_url(url):
@@ -21,6 +22,8 @@ def get_title_and_url(url):
 def get_top_google_search_link(title, site):
     query = title + ' site:' + site
     google_url = 'https://www.google.co.jp/search'
+    # to avoid bot detection
+    time.sleep(1.0)
     response = requests.get(google_url, params={'q': query})
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     return soup.select('.r > a')[0].get('href').replace('/url?q=', '')
