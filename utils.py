@@ -25,8 +25,15 @@ def get_top_google_search_link(title, site):
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     return soup.select('.r > a')[0].get('href').replace('/url?q=', '')
 
+def clean_url(url):
+    end_index = url.find('&')
+    if end_index > -1:
+        return url[:end_index]
+    return url
+
 def get_original_link(url):
     if url.find('news.yahoo.co.jp/pickup') > -1:
         url = get_article_link(url)
     title, site = get_title_and_url(url)
-    return get_top_google_search_link(title, site)
+    original_url = get_top_google_search_link(title, site)
+    return clean_url(original_url)
