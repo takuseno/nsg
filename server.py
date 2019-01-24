@@ -22,8 +22,4 @@ def search():
 
 if __name__ == '__main__':
     app.debug = True
-    if 'PORT' in os.environ:
-        port = os.environ['PORT']
-    else:
-        port = 5000
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0')
