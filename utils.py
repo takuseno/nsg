@@ -1,9 +1,14 @@
 import requests
 import bs4
 import time
+import logging
 
 from urllib.parse import urlencode
 from selenium import webdriver
+
+
+logging.basicConfig(level=logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 def get_redirect_url(url):
@@ -28,6 +33,7 @@ def get_top_google_search_link(title, site):
     # use headless browser to avoid bot detection
     driver = webdriver.PhantomJS()
     driver.get(google_url + '?' + urlencode({'q': query}))
+    LOGGER.debug(driver.current_url)
     links = driver.find_elements_by_css_selector('h3 > a')
     url = links[0].get_attribute('href')
     if url.find('/search?q=') > -1:
