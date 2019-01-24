@@ -15,7 +15,6 @@ def search():
     url = request.form['url']
     try:
         message = get_original_link(url)
-        return redirect(original_url)
     except Exception as e:
         message = e.message
     return render_template('index.html', result=message)
