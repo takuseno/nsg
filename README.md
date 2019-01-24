@@ -7,6 +7,10 @@ NSG gets an original URL and a screenshot of the page from a URL on a curation s
 ## available curation sites
 - Yahoo News Japan
 
+## dependencies
+- Python 3
+- PhantomJS
+
 ## launch
 ```
 $ python server.py
