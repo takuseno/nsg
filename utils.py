@@ -23,7 +23,7 @@ def get_top_google_search_link(title, site):
     query = title + ' site:' + site
     google_url = 'https://www.google.co.jp/search'
     # to avoid bot detection
-    time.sleep(1.0)
+    time.sleep(3.0)
     response = requests.get(google_url, params={'q': query})
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     href = soup.select('.r > a')[0].get('href')
