@@ -30,10 +30,13 @@ def get_title_and_url(url):
 def get_top_google_search_link(title, site):
     query = title + ' site:' + site
     google_url = 'https://www.google.co.jp/search'
+    url = google_url + '?' + urlencode({'q': query})
     # use headless browser to avoid bot detection
     driver = webdriver.PhantomJS()
-    driver.get(google_url + '?' + urlencode({'q': query}))
+    driver.get(url)
     LOGGER.debug(driver.current_url)
+    if driver.current_url.find('www.google.com/sorry/index') > -1:
+        raise Exception('we are detected as a bot by Google now. Go to <a href="{}">here</a>.'.format(url))
     links = driver.find_elements_by_css_selector('h3 > a')
     url = links[0].get_attribute('href')
     if url.find('/search?q=') > -1:

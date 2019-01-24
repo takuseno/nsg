@@ -9,7 +9,10 @@
       <input name='url' type='text' placeholder='type URL'>
       <button type='submit'>search</button>
     </form>
-    <p>{{ result }}</p>
+    <p><a href="{{ result }}">{{ result }}</a></p>
+    {% if error %}
+      <p>{{ error | safe }}</p>
+    {% endif %}
     {% if image %}
       <img src="data:image/png;base64,{{ image }}" />
     {% endif %}

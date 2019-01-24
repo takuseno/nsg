@@ -18,22 +18,26 @@ LOGGER = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', result='', image=None)
+    return render_template('index.html', result='', image=None, error=None)
 
 @app.route('/search', methods=['POST'])
 def search():
     url = request.form['url']
     try:
-        result = get_original_link(url)
-        image = capture(result)
+        original_url = get_original_link(url)
+        image = capture(original_url)
         buf = BytesIO()
         image.save(buf, format='png')
         image_str = base64.b64encode(buf.getvalue()).decode('utf-8')
+        error = None
+        result = original_url
     except Exception as e:
         LOGGER.error(traceback.format_exc())
         image_str = None
-        result = str(e)
-    return render_template('index.html', result=result, image=image_str)
+        error = str(e)
+        result = None
+
+    return render_template('index.html', error=error, result=result, image=image_str)
 
 if __name__ == '__main__':
     app.debug = True
