@@ -45,6 +45,8 @@ def get_top_google_search_link(title, site):
     url = links[0].get_attribute('href')
     if url.find('/search?q=') > -1:
         url = links[1].get_attribute('href')
+    # release
+    driver.quit()
     return clean_url(url)
 
 def clean_url(url):

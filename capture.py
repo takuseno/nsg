@@ -11,4 +11,5 @@ def capture(url):
     image = image.crop((0, 0, 1024, 720))
     image = image.resize((512, 360))
     image.save('static/screenshot.png')
+    driver.quit()
     return image
